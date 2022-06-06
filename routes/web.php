@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\AgenciesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::middleware('role:hr')->group(function () {
+        Route::resource('agencies', AgenciesController::class);
+    });
+});
 
 require __DIR__.'/auth.php';
