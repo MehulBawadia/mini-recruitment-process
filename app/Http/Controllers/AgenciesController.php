@@ -33,7 +33,7 @@ class AgenciesController extends Controller
      */
     public function index()
     {
-        $agencies = $this->agency->orderBy('id', 'DESC')->get() ?? collect();
+        $agencies = $this->agency->orderBy('id', 'DESC')->paginate(10) ?? collect();
 
         return Inertia::render('Agencies/List', [
             'agencies' => $agencies,

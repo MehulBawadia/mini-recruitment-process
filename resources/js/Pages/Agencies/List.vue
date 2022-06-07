@@ -1,15 +1,16 @@
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import Pagination from '@/Components/Pagination.vue';
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
-        Head, Link
+        Head, Link, Pagination,
     },
 
     props: {
-        agencies: Array,
+        agencies: Object,
     }
 }
 </script>
@@ -37,7 +38,7 @@ export default {
             </Link>
         </div>
 
-        <div class="bg-white rounded-md shadow overflow-x-auto mt-8">
+        <div class="bg-white rounded-tr-md rounded-tl-md shadow overflow-x-auto mt-8">
             <table class="w-full whitespace-nowrap">
                 <thead>
                     <tr class="text-left font-bold">
@@ -52,7 +53,7 @@ export default {
                         <td class="border-t text-center py-2" colspan="3">No records found.</td>
                     </tr>
 
-                    <tr v-else v-for="agency in agencies" :key="agency.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+                    <tr v-else v-for="agency in agencies.data" :key="agency.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
                             <Link class="flex items-center py-4 px-6 focus:text-indigo-600" :href="route('agencies.show', agency.id)">{{ agency.name }}</Link>
                         </td>
@@ -69,5 +70,7 @@ export default {
                 </tbody>
             </table>
         </div>
+
+        <Pagination :links="this.agencies.links" />
     </BreezeAuthenticatedLayout>
 </template>
