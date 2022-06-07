@@ -3,6 +3,7 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeButton from '@/Components/Button.vue';
 import BreezeInput from '@/Components/Input.vue';
 import BreezeLabel from '@/Components/Label.vue';
+import FormInput from '@/Components/FormInput.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
@@ -10,7 +11,7 @@ import 'sweetalert2/src/sweetalert2.scss';
 export default {
     components: {
         BreezeAuthenticatedLayout,
-        BreezeButton, BreezeInput, BreezeLabel,
+        BreezeButton, BreezeInput, BreezeLabel, FormInput,
         Head, Link, Swal,
     },
 
@@ -89,30 +90,38 @@ export default {
             <form @submit.prevent="updateAgency">
                 <div class="px-10 py-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <BreezeLabel for="name" value="Name:" class="font-semibold" />
-                            <BreezeInput id="name" type="name" class="mt-1 block w-full border py-2 pl-2 focus:outline-none" v-model="this.form.name" required :class="{'border-red-500' : this.errors && this.errors.name}" @keydown.enter.prevent="updateAgency" />
+                        <FormInput
+                            labelText="Name:"
+                            labelFor="name"
+                            v-model="this.form.name"
+                            :error="this.errors && this.errors.name"
+                            isRequired
+                        />
 
-                            <span class="text-red-600" v-if="this.errors && this.errors.name">{{ this.errors.name[0] }}</span>
-                        </div>
-                        <div>
-                            <BreezeLabel for="email" value="E-Mail:" class="font-semibold" />
-                            <BreezeInput id="email" type="email" class="mt-1 block w-full border py-2 pl-2 focus:outline-none" v-model="this.form.email" :class="{'border-red-500' : this.errors && this.errors.email}" required @keydown.enter.prevent="updateAgency" />
+                        <FormInput
+                            labelText="Contact Person:"
+                            labelFor="contact_person"
+                            v-model="this.form.contact_person"
+                            :error="this.errors && this.errors.contact_person"
+                            isRequired
+                        />
 
-                            <span class="text-red-600" v-if="this.errors && this.errors.email">{{ this.errors.email[0] }}</span>
-                        </div>
-                        <div>
-                            <BreezeLabel for="contact_person" value="Contact Person:" class="font-semibold" />
-                            <BreezeInput id="contact_person" type="contact_person" class="mt-1 block w-full border py-2 pl-2 focus:outline-none" v-model="this.form.contact_person" required :class="{'border-red-500' : this.errors && this.errors.contact_person}" @keydown.enter.prevent="updateAgency" />
+                        <FormInput
+                            labelText="E-Mail:"
+                            labelFor="email"
+                            inputType="email"
+                            v-model="this.form.email"
+                            :error="this.errors && this.errors.email"
+                            isRequired
+                        />
 
-                            <span class="text-red-600" v-if="this.errors && this.errors.contact_person">{{ this.errors.contact_person[0] }}</span>
-                        </div>
-                        <div>
-                            <BreezeLabel for="mobile" value="Mobile:" class="font-semibold" />
-                            <BreezeInput id="mobile" type="mobile" class="mt-1 block w-full border py-2 pl-2 focus:outline-none" v-model="this.form.mobile" required :class="{'border-red-500' : this.errors && this.errors.mobile}" @keydown.enter.prevent="updateAgency" />
-
-                            <span class="text-red-600" v-if="this.errors && this.errors.mobile">{{ this.errors.mobile[0] }}</span>
-                        </div>
+                        <FormInput
+                            labelText="Mobile:"
+                            labelFor="mobile"
+                            v-model="this.form.mobile"
+                            :error="this.errors && this.errors.mobile"
+                            isRequired
+                        />
                     </div>
                 </div>
 
