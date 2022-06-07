@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
+@layer components {
+    .breadcrumbLink {
+        @apply text-indigo-800 tracking-widest hover:text-indigo-600 focus:text-indigo-600 focus:outline-none transition ease-in-out duration-150;
+    }
+}
 @tailwind utilities;

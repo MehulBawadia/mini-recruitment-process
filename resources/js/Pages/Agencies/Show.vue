@@ -77,14 +77,12 @@ export default {
             </h2>
         </template>
 
-        <div class="px-4 flex items-center justify-between">
-            <h1 class="text-3xl font-bold">
-                <Link class="text-indigo-800 tracking-widest hover:text-indigo-600 focus:text-indigo-600 focus:outline-none transition ease-in-out duration-150" :href="route('agencies.index')">
-                    Agencies
-                </Link>
-                / {{ this.agency.name }}
-            </h1>
-        </div>
+        <h1 class="text-3xl font-bold">
+            <Link class="breadcrumbLink" :href="route('agencies.index')">
+                Agencies
+            </Link>
+            / {{ this.agency.name }}
+        </h1>
 
         <div class="max-w-5xl bg-white rounded-md shadow overflow-x-auto mt-8">
             <div class="px-10 py-6">

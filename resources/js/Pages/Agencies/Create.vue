@@ -79,7 +79,7 @@ export default {
         </template>
 
         <h1 class="text-3xl font-bold">
-            <Link class="text-indigo-800 tracking-widest hover:text-indigo-600 focus:text-indigo-600 focus:outline-none transition ease-in-out duration-150" :href="route('agencies.index')">
+            <Link class="breadcrumbLink" :href="route('agencies.index')">
                 Agencies
             </Link>
             / Create
