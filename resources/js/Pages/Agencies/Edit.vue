@@ -1,17 +1,15 @@
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
-import BreezeButton from '@/Components/Button.vue';
-import BreezeInput from '@/Components/Input.vue';
-import BreezeLabel from '@/Components/Label.vue';
 import FormInput from '@/Components/FormInput.vue';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import CustomForm from '@/Components/CustomForm.vue';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
-        BreezeButton, BreezeInput, BreezeLabel, FormInput,
+        CustomForm, FormInput,
         Head, Link, Swal,
     },
 
@@ -87,48 +85,46 @@ export default {
         </div>
 
         <div class="max-w-5xl bg-white rounded-md shadow overflow-x-auto mt-8">
-            <form @submit.prevent="updateAgency">
-                <div class="px-10 py-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FormInput
-                            labelText="Name:"
-                            labelFor="name"
-                            v-model="this.form.name"
-                            :error="this.errors && this.errors.name"
-                            isRequired
-                        />
+            <CustomForm formType="edit" @update="updateAgency" submitButtonText="Update Agency">
+                <template #formFields>
+                    <div class="px-10 py-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <FormInput
+                                labelText="Name:"
+                                labelFor="name"
+                                v-model="this.form.name"
+                                :error="this.errors && this.errors.name"
+                                isRequired
+                            />
 
-                        <FormInput
-                            labelText="Contact Person:"
-                            labelFor="contact_person"
-                            v-model="this.form.contact_person"
-                            :error="this.errors && this.errors.contact_person"
-                            isRequired
-                        />
+                            <FormInput
+                                labelText="Contact Person:"
+                                labelFor="contact_person"
+                                v-model="this.form.contact_person"
+                                :error="this.errors && this.errors.contact_person"
+                                isRequired
+                            />
 
-                        <FormInput
-                            labelText="E-Mail:"
-                            labelFor="email"
-                            inputType="email"
-                            v-model="this.form.email"
-                            :error="this.errors && this.errors.email"
-                            isRequired
-                        />
+                            <FormInput
+                                labelText="E-Mail:"
+                                labelFor="email"
+                                inputType="email"
+                                v-model="this.form.email"
+                                :error="this.errors && this.errors.email"
+                                isRequired
+                            />
 
-                        <FormInput
-                            labelText="Mobile:"
-                            labelFor="mobile"
-                            v-model="this.form.mobile"
-                            :error="this.errors && this.errors.mobile"
-                            isRequired
-                        />
+                            <FormInput
+                                labelText="Mobile:"
+                                labelFor="mobile"
+                                v-model="this.form.mobile"
+                                :error="this.errors && this.errors.mobile"
+                                isRequired
+                            />
+                        </div>
                     </div>
-                </div>
-
-                <div class="px-10 py-4 bg-gray-100 border-t border-gray-100 flex">
-                    <BreezeButton class="flex items-center ml-auto" :class="{ 'opacity-25': this.form.processing }" :disabled="this.form.processing" @click.prevent="updateAgency">Update Agency</BreezeButton>
-                </div>
-            </form>
+                </template>
+            </CustomForm>
         </div>
     </BreezeAuthenticatedLayout>
 </template>
