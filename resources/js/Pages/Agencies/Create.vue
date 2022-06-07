@@ -36,12 +36,7 @@ export default {
                     this.form.processing = false;
 
                     if (res.data.status === 'success') {
-                        this.form.name = "";
-                        this.form.email = "";
-                        this.form.mobile = "";
-                        this.form.contact_person = "";
-
-                        this.errors = null;
+                        this.clearForm();
 
                         Swal.fire({
                             icon: 'success',
@@ -56,6 +51,15 @@ export default {
                     }
                 });
         },
+
+        clearForm() {
+            let self = this;
+            Object.keys(this.form).forEach(function (key, index) {
+                self.form[key] = '';
+            });
+
+            self.errors = null;
+        }
     },
 };
 </script>
