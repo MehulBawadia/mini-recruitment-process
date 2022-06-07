@@ -4,12 +4,14 @@ import BreezeButton from '@/Components/Button.vue';
 import BreezeInput from '@/Components/Input.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         BreezeButton, BreezeInput, BreezeLabel,
-        Head, Link
+        Head, Link, Swal,
     },
 
     props: {
@@ -18,7 +20,6 @@ export default {
 
     data() {
         return {
-            successMessage: null,
             errors: null,
             form: {
                 name: this.agency.name,
@@ -42,7 +43,11 @@ export default {
                     if (res.data.status === 'success') {
                         this.errors = null;
 
-                        this.successMessage = res.data.message;
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success !',
+                            text: res.data.message,
+                        });
                     }
                 }).catch(error => {
                     this.form.processing = false;
@@ -78,10 +83,6 @@ export default {
 
         <div v-if="this.errors" class="max-w-5xl bg-red-200 text-red-800 py-4 px-4 rounded mt-6">
             Oops! There were some errors while updating the agency details.
-        </div>
-
-        <div v-if="this.successMessage" class="max-w-5xl bg-green-200 text-green-800 py-4 px-4 rounded mt-6">
-            {{ this.successMessage }}
         </div>
 
         <div class="max-w-5xl bg-white rounded-md shadow overflow-x-auto mt-8">

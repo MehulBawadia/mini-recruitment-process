@@ -2,6 +2,8 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeButton from '@/Components/Button.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
 
 export default {
     components: {
@@ -25,16 +27,37 @@ export default {
         destroyAgency() {
             this.isDestroying = true;
 
-            axios.delete(route('agencies.destroy', this.agency.id))
-                .then(res => {
-                    if (res.data.status === 'success') {
-                        this.successMessage = res.data.message;
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirm',
+                text: 'Are you want to delete this agency?',
+                showConfirmButton: true,
+                confirmButtonText: 'Yes! Delete',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+            }).then(btnResult => {
+                if (btnResult.isDismissed) {
+                    this.isDestroying = false;
+                }
 
-                        setTimeout(() => {
-                            window.location = route('agencies.index');
-                        }, 2000);
-                    }
-                });
+                if (btnResult.isConfirmed) {
+                    axios.delete(route('agencies.destroy', this.agency.id))
+                        .then(res => {
+                            if (res.data.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success !',
+                                    text: res.data.message,
+                                    timer: 2000,
+                                });
+
+                                setTimeout(() => {
+                                    window.location = route('agencies.index');
+                                }, 2500);
+                            }
+                        });
+                }
+            });
         }
     },
 }
@@ -61,10 +84,6 @@ export default {
                 </Link>
                 / {{ this.agency.name }}
             </h1>
-        </div>
-
-        <div v-if="this.successMessage" class="max-w-5xl bg-green-200 text-green-800 py-4 px-4 rounded mt-6">
-            {{ this.successMessage }}
         </div>
 
         <div class="max-w-5xl bg-white rounded-md shadow overflow-x-auto mt-8">
