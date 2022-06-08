@@ -1,16 +1,40 @@
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
+import BreezeInput from '@/Components/Input.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Pagination from '@/Components/Pagination.vue';
 
 export default {
     components: {
-        BreezeAuthenticatedLayout,
+        BreezeAuthenticatedLayout, BreezeInput,
         Head, Link, Pagination,
     },
 
     props: {
         agencies: Object,
+        filters: Object,
+    },
+
+    data() {
+        return {
+            searchWaitTimer: null,
+            params: {
+                search: this.filters.search ?? null,
+            }
+        }
+    },
+
+    watch: {
+        params: {
+            handler() {
+                clearTimeout(this.searchWaitTimer);
+
+                this.searchWaitTimer = setTimeout(() => {
+                    this.$inertia.get(route('agencies.index'), this.params, { replace: true, preserveState: true });
+                }, 300);
+            },
+            deep: true,
+        },
     }
 }
 </script>
@@ -29,31 +53,41 @@ export default {
             </h2>
         </template>
 
-        <div class="px-4 flex items-center justify-between">
-            <h1 class="text-3xl font-bold">Agencies</h1>
+        <div class="flex items-center justify-between">
+            <div class="flex items-center w-1/2">
+                <h1 class="text-xl md:text-3xl font-bold">Agencies</h1>
+
+                <BreezeInput class="hidden sm:block ml-4 px-2 py-2 w-1/2 rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
+            </div>
 
             <Link class="font-bold inline-flex items-center px-4 py-2 bg-indigo-800 border border-transparent rounded-md text-sm text-white tracking-widest hover:bg-amber-600 focus:bg-amber-600 focus:outline-none transition ease-in-out duration-150" :href="route('agencies.create')">
                 <span>Create</span>
                 <span class="hidden md:inline">&nbsp;Agency</span>
             </Link>
         </div>
+        <BreezeInput class="sm:hidden my-4 block px-2 py-2 w-full rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
 
         <div class="bg-white rounded-tr-md rounded-tl-md shadow overflow-x-auto mt-8">
             <table class="w-full whitespace-nowrap">
                 <thead>
                     <tr class="text-left font-bold">
+                        <th class="py-4 px-6">Id</th>
                         <th class="py-4 px-6">Name</th>
                         <th class="py-4 px-6">Contact Person</th>
-                        <th class="py-4 px-6">E-Mail / Mobile</th>
+                        <th class="py-4 px-6">E-Mail</th>
+                        <th class="py-4 px-6">Mobile</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr v-if="agencies.length == 0">
-                        <td class="border-t text-center py-2" colspan="3">No records found.</td>
+                        <td class="border-t text-center py-2" colspan="4">No records found.</td>
                     </tr>
 
                     <tr v-else v-for="agency in agencies.data" :key="agency.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td class="border-t">
+                            <Link class="flex items-center py-4 px-6 focus:text-indigo-600" :href="route('agencies.show', agency.id)">{{ agency.id }}</Link>
+                        </td>
                         <td class="border-t">
                             <Link class="flex items-center py-4 px-6 focus:text-indigo-600" :href="route('agencies.show', agency.id)">{{ agency.name }}</Link>
                         </td>
@@ -61,7 +95,10 @@ export default {
                             <Link class="flex items-center py-4 px-6 focus:text-indigo-600" :href="route('agencies.show', agency.id)">{{ agency.contact_person }}</Link>
                         </td>
                         <td class="border-t">
-                            <Link class="flex items-center py-4 px-6 focus:text-indigo-600" :href="route('agencies.show', agency.id)">{{ agency.email }} / {{ agency.mobile }}</Link>
+                            <Link class="flex items-center py-4 px-6 focus:text-indigo-600" :href="route('agencies.show', agency.id)">{{ agency.email }}</Link>
+                        </td>
+                        <td class="border-t">
+                            <Link class="flex items-center py-4 px-6 focus:text-indigo-600" :href="route('agencies.show', agency.id)">{{ agency.mobile }}</Link>
                         </td>
                         <td class="w-px border-t">
                             <Link class="flex items-center px-4 text-2xl" :href="route('agencies.show', agency.id)"> &rsaquo;</Link>

@@ -33,10 +33,22 @@ class AgenciesController extends Controller
      */
     public function index()
     {
-        $agencies = $this->agency->orderBy('id', 'DESC')->paginate(10) ?? collect();
+        // $agencies = $this->agency->orderBy('id', 'DESC')->paginate(10) ?? collect();
+        $agencies = $this->agency->query();
+
+        $searchTerm = request('search') ?? null;
+        if ($searchTerm != null || $searchTerm != "") {
+            $agencies->where('name', 'LIKE', "%".$searchTerm."%")
+                ->orWhere('contact_person', 'LIKE', "%". $searchTerm ."%")
+                ->orWhere('email', 'LIKE', "%". $searchTerm ."%")
+                ->orWhere('mobile', 'LIKE', "%". $searchTerm ."%");
+        }
+
+        $agencies = $agencies->orderBy('id', 'DESC')->paginate(10);
 
         return Inertia::render('Agencies/List', [
-            'agencies' => $agencies,
+            'agencies' => $agencies->withQueryString(),
+            'filters' => request()->only('search'),
         ]);
     }
 
