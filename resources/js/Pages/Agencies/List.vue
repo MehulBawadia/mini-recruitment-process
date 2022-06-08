@@ -20,7 +20,16 @@ export default {
             searchWaitTimer: null,
             params: {
                 search: this.filters.search ?? null,
+                field: this.filters.field ?? null,
+                direction: this.filters.direction ?? null,
             }
+        }
+    },
+
+    methods: {
+        sort(field) {
+            this.params.field = field;
+            this.params.direction = this.params.direction == 'asc' ? 'desc' : 'asc';
         }
     },
 
@@ -71,9 +80,41 @@ export default {
             <table class="w-full whitespace-nowrap">
                 <thead>
                     <tr class="text-left font-bold">
-                        <th class="py-4 px-6">Id</th>
-                        <th class="py-4 px-6">Name</th>
-                        <th class="py-4 px-6">Contact Person</th>
+                        <th class="py-4 px-6 hover:cursor-pointer" @click="sort('id')">
+                            <div class="flex items-center justify-between">
+                                <div>Id</div>
+                                <div v-if="this.params.field === 'id' && this.params.direction === 'asc'">
+                                    <img src="/svgs/sort-ascending.svg" alt="Sort Ascending SVG" width="16" height="16" />
+                                </div>
+                                <div v-if="this.params.field === 'id' && this.params.direction === 'desc'">
+                                    <img src="/svgs/sort-descending.svg" alt="Sort Descending SVG" width="16" height="16" />
+                                </div>
+                            </div>
+                        </th>
+                        <th class="py-4 px-6 hover:cursor-pointer" @click="sort('name')">
+                            <div class="flex items-center justify-between">
+                                <div>Name</div>
+
+                                <div v-if="this.params.field === 'name' && this.params.direction === 'asc'">
+                                    <img src="/svgs/sort-ascending.svg" alt="Sort Ascending SVG" width="16" height="16" />
+                                </div>
+                                <div v-if="this.params.field === 'name' && this.params.direction === 'desc'">
+                                    <img src="/svgs/sort-descending.svg" alt="Sort Descending SVG" width="16" height="16" />
+                                </div>
+                            </div>
+                        </th>
+                        <th class="py-4 px-6 hover:cursor-pointer" @click="sort('contact_person')">
+                            <div class="flex items-center justify-between">
+                                <div>Contact Person</div>
+
+                                <div v-if="this.params.field === 'contact_person' && this.params.direction === 'asc'">
+                                    <img src="/svgs/sort-ascending.svg" alt="Sort Ascending SVG" width="16" height="16" />
+                                </div>
+                                <div v-if="this.params.field === 'contact_person' && this.params.direction === 'desc'">
+                                    <img src="/svgs/sort-descending.svg" alt="Sort Descending SVG" width="16" height="16" />
+                                </div>
+                            </div>
+                        </th>
                         <th class="py-4 px-6">E-Mail</th>
                         <th class="py-4 px-6">Mobile</th>
                     </tr>

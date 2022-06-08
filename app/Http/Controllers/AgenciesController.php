@@ -33,6 +33,11 @@ class AgenciesController extends Controller
      */
     public function index()
     {
+        request()->validate([
+            'field' => 'nullable|sometimes|in:id,name,contact_person',
+            'direction' => 'nullable|sometimes|in:asc,desc',
+        ]);
+
         // $agencies = $this->agency->orderBy('id', 'DESC')->paginate(10) ?? collect();
         $agencies = $this->agency->query();
 
@@ -44,11 +49,13 @@ class AgenciesController extends Controller
                 ->orWhere('mobile', 'LIKE', "%". $searchTerm ."%");
         }
 
-        $agencies = $agencies->orderBy('id', 'DESC')->paginate(10);
+        $field = request('field') ?? 'id';
+        $direction = request('direction') ?? 'desc';
+        $agencies = $agencies->orderBy($field, $direction)->paginate(10);
 
         return Inertia::render('Agencies/List', [
             'agencies' => $agencies->withQueryString(),
-            'filters' => request()->only('search'),
+            'filters' => request()->only(['search', 'field', 'direction']),
         ]);
     }
 
