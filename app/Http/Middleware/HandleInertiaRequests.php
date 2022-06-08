@@ -36,6 +36,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'appName' => config('app.name'),
+            'companyName' => config('app.company_name'),
             'auth' => [
                 'user' => $user = $request->user(),
                 'userIsAdmin' => auth()->check() ? $user->hasRole('admin') : false,
