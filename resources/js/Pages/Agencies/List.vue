@@ -57,6 +57,8 @@ export default {
                 <h1 class="text-xl md:text-3xl font-bold">Agencies</h1>
 
                 <BreezeInput class="hidden sm:block ml-4 px-2 py-2 w-1/2 rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
+
+                <Link :href="route('agencies.index')" class="ml-4 text-gray-600 hover:text-red-500 focus:text-red-500 focus:outline-none" v-if="params.search != null">Reset</Link>
             </div>
 
             <Link class="font-bold inline-flex items-center px-4 py-2 bg-indigo-800 border border-transparent rounded-md text-sm text-white tracking-widest hover:bg-amber-600 focus:bg-amber-600 focus:outline-none transition ease-in-out duration-150" :href="route('agencies.create')">
@@ -111,8 +113,8 @@ export default {
                 </thead>
 
                 <tbody>
-                    <tr v-if="agencies.length == 0">
-                        <td class="border-t text-center py-2" colspan="4">No records found.</td>
+                    <tr v-if="agencies.data.length == 0">
+                        <td class="border-t text-center py-2" colspan="5">No records found.</td>
                     </tr>
 
                     <tr v-else v-for="agency in agencies.data" :key="agency.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
