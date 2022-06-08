@@ -54,9 +54,15 @@ const isAgenciesLinkActive = () => {
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden absolute right-2 top-14 rounded bg-indigo-900">
-                    <div class="py-2">
+                    <div class="py-1">
                         <Link class="text-indigo-100 px-4" :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </Link>
+                    </div>
+
+                    <div class="px-4 py-1" v-if="$page.props.auth.userIsHR">
+                        <Link :href="route('agencies.index')" class="text-gray-300 hover:text-white transition ease-in-out duration-150" :class="{'text-white' : isAgenciesLinkActive() }">
+                            Agencies
                         </Link>
                     </div>
 
