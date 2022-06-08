@@ -35,8 +35,8 @@ const isAgenciesLinkActive = () => {
 <template>
     <div>
         <div class="min-h-screen bg-indigo-50">
-            <div class="flex relative">
-                <div class="hidden sm:block w-64 bg-indigo-900">
+            <div class="flex flex-wrap relative">
+                <div class="hidden md:block w-1/3 md:w-1/4 lg:w-1/6 bg-indigo-900">
                     <div class="h-16 px-4 sm:px-6 lg:px-8 text-white flex items-center font-bold text-2xl">{{ $page.props.appName }}</div>
 
                     <div class="bg-indigo-800 min-h-screen pt-12 px-8 space-y-6">
@@ -53,7 +53,7 @@ const isAgenciesLinkActive = () => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden absolute right-2 top-14 rounded bg-indigo-900">
+                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="md:hidden absolute right-6 top-14 rounded bg-indigo-900">
                     <div class="py-1">
                         <Link class="text-indigo-100 px-4" :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
@@ -67,26 +67,19 @@ const isAgenciesLinkActive = () => {
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
-                        </div>
-
-                        <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
-                            </BreezeResponsiveNavLink>
-                        </div>
+                    <div class="border-t border-gray-200">
+                        <BreezeResponsiveNavLink class="text-sm text-white transition ease-in-out duration-150" :href="route('logout')" method="post" as="button">
+                            Log Out
+                        </BreezeResponsiveNavLink>
                     </div>
                 </div>
 
-                <div class="w-full">
+                <div class="w-full md:w-3/4 lg:w-5/6">
                     <div class="h-16 bg-white flex items-center justify-between">
                         <div class="py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
                             <slot name="header" />
 
-                            <div class="flex items-center sm:hidden">
+                            <div class="flex items-center md:hidden">
                                 <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                         <path :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -96,13 +89,13 @@ const isAgenciesLinkActive = () => {
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ml-6 pr-8">
+                        <div class="hidden md:flex md:items-center md:ml-6 pr-8">
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <BreezeDropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
-                                            <button type="button" class="w-32 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                            <button type="button" class="w-32 flex items-center justify-end py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                                 {{ $page.props.auth.user.first_name }} {{ $page.props.auth.user.last_name }}
 
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
