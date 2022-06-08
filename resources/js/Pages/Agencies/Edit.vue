@@ -63,16 +63,6 @@ export default {
     <Head title="Edit Agency" />
 
     <BreezeAuthenticatedLayout>
-        <template #header>
-            <h2 class="hidden sm:block font-semibold text-xl text-gray-800 leading-tight">
-                Agencies
-            </h2>
-
-            <h2 class="sm:hidden font-semibold text-xl text-gray-800 leading-tight">
-                {{ $page.props.appName }}
-            </h2>
-        </template>
-
         <h1 class="text-3xl font-bold">
             <Link class="breadcrumbLink" :href="route('agencies.index')">
                 Agencies

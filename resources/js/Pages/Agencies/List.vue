@@ -52,16 +52,6 @@ export default {
     <Head title="Agencies" />
 
     <BreezeAuthenticatedLayout>
-        <template #header>
-            <h2 class="hidden sm:block font-semibold text-xl text-gray-800 leading-tight">
-                Agencies
-            </h2>
-
-            <h2 class="sm:hidden font-semibold text-xl text-gray-800 leading-tight">
-                {{ $page.props.appName }}
-            </h2>
-        </template>
-
         <div class="flex items-center justify-between">
             <div class="flex items-center w-1/2">
                 <h1 class="text-xl md:text-3xl font-bold">Agencies</h1>
