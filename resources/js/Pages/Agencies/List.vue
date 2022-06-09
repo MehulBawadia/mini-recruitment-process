@@ -53,12 +53,8 @@ export default {
 
     <BreezeAuthenticatedLayout>
         <div class="flex items-center justify-between">
-            <div class="flex items-center w-1/2">
+            <div class="flex items-center">
                 <h1 class="text-xl md:text-3xl font-bold">Agencies</h1>
-
-                <BreezeInput class="hidden sm:block ml-4 px-2 py-2 w-1/2 rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
-
-                <Link :href="route('agencies.index')" class="ml-4 text-gray-600 hover:text-red-500 focus:text-red-500 focus:outline-none" v-if="params.search != null">Reset</Link>
             </div>
 
             <Link class="font-bold inline-flex items-center px-4 py-2 bg-indigo-800 border border-transparent rounded-md text-sm text-white tracking-widest hover:bg-amber-600 focus:bg-amber-600 focus:outline-none transition ease-in-out duration-150" :href="route('agencies.create')">
@@ -66,9 +62,13 @@ export default {
                 <span class="hidden md:inline">&nbsp;Agency</span>
             </Link>
         </div>
-        <BreezeInput class="sm:hidden my-4 block px-2 py-2 w-full rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
 
-        <div class="bg-white rounded-tr-md rounded-tl-md shadow overflow-x-auto mt-8">
+        <div class="flex items-center mt-6">
+            <BreezeInput class="w-full md:w-1/2 lg:w-1/4 my-4 inline-block px-2 py-2 rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
+            <Link :href="route('agencies.index')" class="ml-4 text-gray-600 hover:text-red-500 focus:text-red-500 focus:outline-none" v-if="params.search != null">Reset</Link>
+        </div>
+
+        <div class="bg-white rounded-tr-md rounded-tl-md shadow overflow-x-auto">
             <table class="w-full whitespace-nowrap">
                 <thead>
                     <tr class="text-left font-bold">
