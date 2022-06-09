@@ -4,7 +4,6 @@ import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
 import BreezeDropdown from '@/Components/Dropdown.vue';
 import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
-import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 
@@ -53,7 +52,7 @@ const isAgenciesLinkActive = () => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="md:hidden absolute right-6 top-14 rounded bg-indigo-900">
+                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="md:hidden w-48 border absolute right-6 top-14 rounded bg-indigo-900">
                     <div class="py-1">
                         <Link class="text-indigo-100 px-4" :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
@@ -68,9 +67,9 @@ const isAgenciesLinkActive = () => {
 
                     <!-- Responsive Settings Options -->
                     <div class="border-t border-gray-200">
-                        <BreezeResponsiveNavLink class="text-sm text-white transition ease-in-out duration-150" :href="route('logout')" method="post" as="button">
+                        <Link class="px-4 py-2 text-sm text-white transition ease-in-out duration-150 focus:outline-none focus:bg-transparent" :href="route('logout')" method="post" as="button">
                             Log Out
-                        </BreezeResponsiveNavLink>
+                        </Link>
                     </div>
                 </div>
 
