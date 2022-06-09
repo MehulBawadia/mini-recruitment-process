@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from 'vue';
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
 import BreezeDropdown from '@/Components/Dropdown.vue';
 import BreezeDropdownLink from '@/Components/DropdownLink.vue';
-import BreezeNavLink from '@/Components/NavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
+import Navigation from '@/Components/Navigation.vue';
+import MobileNavigation from '@/Components/MobileNavigation.vue';
 
 const showingNavigationDropdown = ref(false);
 
@@ -35,43 +35,8 @@ const isAgenciesLinkActive = () => {
     <div>
         <div class="min-h-screen bg-indigo-50">
             <div class="flex flex-wrap relative">
-                <div class="hidden md:block w-1/3 md:w-1/4 lg:w-1/6 bg-indigo-900">
-                    <div class="h-16 px-4 sm:px-6 lg:px-8 text-white flex items-center font-bold text-2xl">{{ $page.props.appName }}</div>
-
-                    <div class="bg-indigo-800 min-h-screen pt-12 px-8 space-y-6">
-                        <Link :href="route('dashboard')" class="text-gray-300 hover:text-white transition ease-in-out duration-150" :class="{'text-white' : isDashboardLinkActive() }">
-                            Dashboard
-                        </Link>
-
-                        <div v-if="$page.props.auth.userIsHR">
-                            <Link :href="route('agencies.index')" class="text-gray-300 hover:text-white transition ease-in-out duration-150" :class="{'text-white' : isAgenciesLinkActive() }">
-                                Agencies
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="md:hidden w-48 border absolute right-6 top-14 rounded bg-indigo-900">
-                    <div class="py-1">
-                        <Link class="text-indigo-100 px-4" :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </Link>
-                    </div>
-
-                    <div class="px-4 py-1" v-if="$page.props.auth.userIsHR">
-                        <Link :href="route('agencies.index')" class="text-gray-300 hover:text-white transition ease-in-out duration-150" :class="{'text-white' : isAgenciesLinkActive() }">
-                            Agencies
-                        </Link>
-                    </div>
-
-                    <!-- Responsive Settings Options -->
-                    <div class="border-t border-gray-200">
-                        <Link class="px-4 py-2 text-sm text-white transition ease-in-out duration-150 focus:outline-none focus:bg-transparent" :href="route('logout')" method="post" as="button">
-                            Log Out
-                        </Link>
-                    </div>
-                </div>
+                <Navigation />
+                <MobileNavigation :showingNavigationDropdown="showingNavigationDropdown" />
 
                 <div class="w-full md:w-3/4 lg:w-5/6">
                     <div class="h-16 bg-indigo-900 md:bg-white flex items-center justify-between">
