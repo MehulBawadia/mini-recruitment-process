@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('account-settings')->name('accountSettings')->group(function () {
         Route::get('/', [AccountSettingsController::class, 'index']);
         Route::put('/update', [AccountSettingsController::class, 'update'])->name('.update');
+        Route::put('/password', [AccountSettingsController::class, 'updatePassword'])->name('.updatePassword');
     });
 });
 

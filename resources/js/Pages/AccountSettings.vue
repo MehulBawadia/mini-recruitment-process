@@ -17,11 +17,17 @@ export default {
     data() {
         return {
             errors: null,
+            processing: false,
             form: {
                 first_name: this.$page.props.auth.user.first_name,
                 last_name: this.$page.props.auth.user.last_name,
                 email: this.$page.props.auth.user.email,
             },
+            changePasswordForm: {
+                current_password: '',
+                new_password: '',
+                repeat_new_password: '',
+            }
         };
     },
 
@@ -47,6 +53,47 @@ export default {
                     }
                 });
         },
+
+        updatePassword() {
+            this.processing = true;
+
+            axios.put(route('accountSettings.updatePassword'), this.changePasswordForm)
+                .then(res => {
+                    this.processing = false;
+
+                    if (res.data.status === 'success') {
+                        this.clearChangePasswordForm();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success !',
+                            text: res.data.message,
+                        });
+                    }
+
+                    if (res.data.status === 'failed') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed !',
+                            text: res.data.message,
+                        });
+                    }
+                }).catch(error => {
+                    this.processing = false;
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                });
+        },
+
+        clearChangePasswordForm() {
+            let self = this;
+            Object.keys(this.changePasswordForm).forEach(function (key, index) {
+                self.changePasswordForm[key] = '';
+            });
+
+            self.errors = null;
+        }
     },
 };
 </script>
@@ -93,6 +140,43 @@ export default {
                                 inputType="email"
                                 v-model="this.form.email"
                                 :error="this.errors && this.errors.email"
+                                isRequired
+                            />
+                        </div>
+                    </div>
+                </template>
+            </CustomForm>
+        </div>
+
+        <div class="max-w-5xl bg-white rounded-md shadow overflow-x-auto mt-8">
+            <CustomForm formType="edit" @update="updatePassword" submitButtonText="Update" :processing="this.processing">
+                <template #formFields>
+                    <div class="px-10 py-6">
+                        <FormInput
+                            labelText="Current Password:"
+                            labelFor="current_password"
+                            inputType="password"
+                            v-model="this.changePasswordForm.current_password"
+                            :error="this.errors && this.errors.current_password"
+                            isRequired
+                        />
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+                            <FormInput
+                                labelText="New Password:"
+                                labelFor="new_password"
+                                inputType="password"
+                                v-model="this.changePasswordForm.new_password"
+                                :error="this.errors && this.errors.new_password"
+                                isRequired
+                            />
+
+                            <FormInput
+                                labelText="Repeat New Password:"
+                                labelFor="repeat_new_password"
+                                inputType="password"
+                                v-model="this.changePasswordForm.repeat_new_password"
+                                :error="this.errors && this.errors.repeat_new_password"
                                 isRequired
                             />
                         </div>
