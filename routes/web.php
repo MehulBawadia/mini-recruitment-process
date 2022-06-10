@@ -17,7 +17,7 @@ use App\Http\Controllers\AgenciesController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Auth/Login');
+    return redirect(route('login'));
 });
 
 Route::get('/dashboard', function () {
