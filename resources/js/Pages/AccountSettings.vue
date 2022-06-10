@@ -17,22 +17,23 @@ export default {
     data() {
         return {
             errors: null,
-            processing: false,
             form: {
                 first_name: this.$page.props.auth.user.first_name,
                 last_name: this.$page.props.auth.user.last_name,
                 email: this.$page.props.auth.user.email,
+                processing: false,
             },
             changePasswordForm: {
                 current_password: '',
                 new_password: '',
                 repeat_new_password: '',
+                processing: false,
             }
         };
     },
 
     methods: {
-        updateAccSettings() {
+        updateAccount() {
             this.form.processing = true;
 
             axios.put(route('accountSettings.update'), this.form)
@@ -55,11 +56,11 @@ export default {
         },
 
         updatePassword() {
-            this.processing = true;
+            this.changePasswordForm.processing = true;
 
             axios.put(route('accountSettings.updatePassword'), this.changePasswordForm)
                 .then(res => {
-                    this.processing = false;
+                    this.changePasswordForm.processing = false;
 
                     if (res.data.status === 'success') {
                         this.clearChangePasswordForm();
@@ -79,7 +80,7 @@ export default {
                         });
                     }
                 }).catch(error => {
-                    this.processing = false;
+                    this.changePasswordForm.processing = false;
                     if (error.response.status === 422) {
                         this.errors = error.response.data.errors;
                     }
@@ -114,7 +115,7 @@ export default {
         </div>
 
         <div class="max-w-5xl bg-white rounded-md shadow overflow-x-auto mt-8">
-            <CustomForm formType="edit" @update="updateAccSettings" submitButtonText="Update">
+            <CustomForm formType="edit" @update="updateAccount" submitButtonText="Update" :processing="this.form.processing">
                 <template #formFields>
                     <div class="px-10 py-6">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -149,7 +150,7 @@ export default {
         </div>
 
         <div class="max-w-5xl bg-white rounded-md shadow overflow-x-auto mt-8">
-            <CustomForm formType="edit" @update="updatePassword" submitButtonText="Update" :processing="this.processing">
+            <CustomForm formType="edit" @update="updatePassword" submitButtonText="Update" :processing="this.changePasswordForm.processing">
                 <template #formFields>
                     <div class="px-10 py-6">
                         <FormInput
