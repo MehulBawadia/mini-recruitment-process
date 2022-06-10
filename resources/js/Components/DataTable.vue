@@ -14,7 +14,6 @@ export default {
     props: {
         collection: Object, // for pagination
         columns: Array,
-        rows: Array,
         baseLink: String,
         filters: Object,
         showSearch: {
@@ -138,11 +137,11 @@ export default {
                 </thead>
 
                 <tbody>
-                    <tr v-if="rows.length == 0">
+                    <tr v-if="collection.data.length == 0">
                         <td class="border-t text-center py-2" :colspan="this.columns.length + 1">No records found.</td>
                     </tr>
 
-                    <tr v-else v-for="(row, rowKey) in rows" :key="row.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+                    <tr v-else v-for="(row, rowKey) in collection.data" :key="row.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t py-4 px-6" v-for="column in columns">
                             {{ row[column.field] }}
                         </td>

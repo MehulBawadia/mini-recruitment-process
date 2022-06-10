@@ -3,12 +3,12 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeInput from '@/Components/Input.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Pagination from '@/Components/Pagination.vue';
-import CustomDataTable from '@/Components/CustomDataTable.vue';
+import DataTable from '@/Components/DataTable.vue';
 
 export default {
     components: {
         BreezeAuthenticatedLayout, BreezeInput,
-        Head, Link, Pagination, CustomDataTable,
+        Head, Link, Pagination, DataTable,
     },
 
     props: {
@@ -45,10 +45,9 @@ export default {
             </Link>
         </div>
 
-        <CustomDataTable
+        <DataTable
             :collection="this.agencies"
             :columns="this.getColumns()"
-            :rows="this.agencies.data"
             :filters="this.filters"
             baseLink="agencies"
         />
