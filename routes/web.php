@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\AgenciesController;
+use App\Http\Controllers\AccountSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,11 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::middleware('role:hr')->group(function () {
         Route::resource('agencies', AgenciesController::class);
+    });
+
+    Route::prefix('account-settings')->name('accountSettings')->group(function () {
+        Route::get('/', [AccountSettingsController::class, 'index']);
+        Route::put('/update', [AccountSettingsController::class, 'update'])->name('.update');
     });
 });
 

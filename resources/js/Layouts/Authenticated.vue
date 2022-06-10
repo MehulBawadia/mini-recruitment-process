@@ -73,6 +73,9 @@ const isAgenciesLinkActive = () => {
                                     </template>
 
                                     <template #content>
+                                        <BreezeDropdownLink :href="route('accountSettings')">
+                                            Account Settings
+                                        </BreezeDropdownLink>
                                         <BreezeDropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </BreezeDropdownLink>
