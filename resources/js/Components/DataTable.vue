@@ -28,6 +28,8 @@ export default {
             searchWaitTimer: null,
             isDestroying: false,
             destroyingId: null,
+            isToggling: false,
+            togglingId: null,
             params: {
                 search: this.filters.search ?? null,
                 field: this.filters.field ?? null,
@@ -90,6 +92,34 @@ export default {
                         });
                 }
             });
+        },
+
+        toggleSelection(id, routeName) {
+            if (id == null || id == "") {
+                return;
+            }
+
+            this.togglingId = id;
+            this.isToggling = true;
+
+            axios.patch(route(this.baseLink + '.' + routeName, id))
+                .then(res => {
+                    this.togglingId = null;
+                    this.isToggling = false;
+
+                    if (res.data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success !',
+                            text: res.data.message,
+                            timer: 2000,
+                        });
+
+                        setTimeout(() => {
+                            window.location = route(this.baseLink + '.index');
+                        }, 2000);
+                    }
+                });
         }
     },
 
@@ -152,12 +182,22 @@ export default {
                             <div v-if="column.type === 'boolean' && row[column.field] === 1">Yes</div>
                             <div v-if="column.type === 'string'">{{ row[column.field] }}</div>
                             <div v-if="column.type === 'date'">{{ moment(row[column.field]).format('Do MMM, YYYY') }}</div>
+
+                            <div v-if="column.type === 'toggle'" class="flex">
+                                <div class="text-red-600 font-semibold" v-if="row[column.field] === 0">No</div>
+                                <div class="text-green-600 font-semibold" v-if="row[column.field] === 1">Yes</div>
+
+                                <button @click.prevent="toggleSelection(row.id, column.toggleRouteName)" class="ml-2 text-indigo-600 transition ease-in-out duration-150 hover:text-indigo-800 focus:text-indigo-800 focus:outline-none" :class="{'opacity-25 cursor-not-allowed': this.isToggling === true && this.togglingId === row.id}">
+                                    <span v-if="this.isToggling === true && this.togglingId === row.id">Toggling...</span>
+                                    <span v-else>Toggle</span>
+                                </button>
+                            </div>
                         </td>
 
                         <td class="border-t px-6 space-x-4">
-                            <Link class="text-indigo-600 transition ease-in-out duration-150 hover:text-indigo-800 focus:text-indigo-800 focus:outline-none" :href="route(baseLink + '.show', row.id)" :class="{'opacity-25 cursor-not-allowed': this.isDestroying === true && this.destroyingId === row.id}">Show</Link>
-                            <Link class="text-indigo-600 transition ease-in-out duration-150 hover:text-indigo-800 focus:text-indigo-800 focus:outline-none" :href="route(baseLink + '.edit', row.id)" :class="{'opacity-25 cursor-not-allowed': this.isDestroying === true && this.destroyingId === row.id}">Edit</Link>
-                            <button @click.prevent="deleteRow(row.id)" class="text-red-600 transition ease-in-out duration-150 hover:text-red-800 focus:text-red-800 focus:outline-none" :class="{'opacity-25 cursor-not-allowed': this.isDestroying === true && this.destroyingId === row.id}">
+                            <Link class="text-indigo-600 transition ease-in-out duration-150 hover:text-indigo-800 focus:text-indigo-800 focus:outline-none" :href="route(baseLink + '.show', row.id)" :class="{'opacity-25 cursor-not-allowed': (this.isDestroying === true && this.destroyingId === row.id) || (this.isToggling === true && this.togglingId === row.id)}">Show</Link>
+                            <Link class="text-indigo-600 transition ease-in-out duration-150 hover:text-indigo-800 focus:text-indigo-800 focus:outline-none" :href="route(baseLink + '.edit', row.id)" :class="{'opacity-25 cursor-not-allowed': (this.isDestroying === true && this.destroyingId === row.id) || (this.isToggling === true && this.togglingId === row.id)}">Edit</Link>
+                            <button @click.prevent="deleteRow(row.id)" class="text-red-600 transition ease-in-out duration-150 hover:text-red-800 focus:text-red-800 focus:outline-none" :class="{'opacity-25 cursor-not-allowed': (this.isDestroying === true && this.destroyingId === row.id) || (this.isToggling === true && this.togglingId === row.id)}">
                                 <span v-if="this.isDestroying === true && this.destroyingId === row.id">Deleting...</span>
                                 <span v-else>Delete</span>
                             </button>

@@ -29,6 +29,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::middleware('role:hr')->group(function () {
         Route::resource('agencies', AgenciesController::class);
+
+        Route::patch('/candidates/toggle-selected/{id}', [CandidatesController::class, 'toggleSelected'])->name('candidates.toggleSelected');
         Route::resource('candidates', CandidatesController::class);
     });
 

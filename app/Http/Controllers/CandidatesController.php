@@ -174,6 +174,30 @@ class CandidatesController extends Controller
     }
 
     /**
+     * Toggle the selection of the given candidate id.
+     *
+     * @param  integer  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function toggleSelected($id)
+    {
+        $candidate = $this->candidate->find($id);
+        if (! $candidate) {
+            return response()->json([
+                'status' => 'not_found',
+                'message' => 'Candidate not found',
+            ], 404);
+        }
+
+        $candidate->update(['is_selected' => ! $candidate->is_selected]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Candidate selection updated successfully.',
+        ], 201);
+    }
+
+    /**
      * Delete the candidate details of the given candidate id.
      *
      * @param  integer  $id
