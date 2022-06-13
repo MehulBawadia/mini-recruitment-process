@@ -28,6 +28,8 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
+        "@vuepic/vue-datepicker": "^3.2.2",
+        "moment": "^2.29.3",
         "sweetalert2": "^11.4.17"
     }
 }
