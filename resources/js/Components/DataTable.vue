@@ -143,7 +143,9 @@ export default {
 
                     <tr v-else v-for="(row, rowKey) in collection.data" :key="row.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t py-4 px-6" v-for="column in columns">
-                            {{ row[column.field] }}
+                            <div v-if="column.type === 'boolean' && row[column.field] === 0">No</div>
+                            <div v-if="column.type === 'boolean' && row[column.field] === 1">Yes</div>
+                            <div v-if="column.type === 'string'">{{ row[column.field] }}</div>
                         </td>
 
                         <td class="border-t px-6 space-x-4">

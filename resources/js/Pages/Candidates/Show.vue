@@ -110,7 +110,7 @@ export default {
                     </div>
                     <div>
                         <div class="font-semibold text-gray-600">Is Selected:</div>
-                        <div class="font-semibold">{{ this.candidate.is_selected === 0 ? 'Yes' : 'No' }}</div>
+                        <div class="font-semibold">{{ this.candidate.is_selected === 0 ? 'No' : 'Yes' }}</div>
                     </div>
                     <div>
                         <div class="font-semibold text-gray-600">Comments:</div>
