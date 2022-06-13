@@ -4,6 +4,7 @@ import Pagination from './Pagination.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
+import moment from 'moment';
 
 export default {
     components: {
@@ -36,6 +37,10 @@ export default {
     },
 
     methods: {
+        moment() {
+            return moment();
+        },
+
         sort(field) {
             this.params.field = field;
             this.params.direction = this.params.direction == 'asc' ? 'desc' : 'asc';
@@ -146,6 +151,7 @@ export default {
                             <div v-if="column.type === 'boolean' && row[column.field] === 0">No</div>
                             <div v-if="column.type === 'boolean' && row[column.field] === 1">Yes</div>
                             <div v-if="column.type === 'string'">{{ row[column.field] }}</div>
+                            <div v-if="column.type === 'date'">{{ moment(row[column.field]).format('Do MMM, YYYY') }}</div>
                         </td>
 
                         <td class="border-t px-6 space-x-4">

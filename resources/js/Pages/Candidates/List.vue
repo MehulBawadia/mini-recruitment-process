@@ -21,6 +21,8 @@ export default {
                 {label: 'Name', field: 'name', sortable: true, type: 'string',},
                 {label: 'E-Mail', field: 'email', sortable: false, type: 'string',},
                 {label: 'Mobile', field: 'mobile', sortable: false, type: 'string',},
+                {label: 'Interviewer', field: 'interview_by', sortable: false, type: 'string',},
+                {label: 'Scheduled At', field: 'interview_scheduled_at', sortable: false, type: 'date'},
                 {label: 'Is Selected', field: 'is_selected', sortable: false, type: 'boolean'},
             ];
         },
