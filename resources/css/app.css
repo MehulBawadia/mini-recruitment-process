@@ -6,3 +6,15 @@
     }
 }
 @tailwind utilities;
+
+/* DateTimePicker class over-riding  */
+.dp__input {
+    padding: 8px 35px !important;
+    border-color: #d1d5db !important;
+    border-radius: .375rem !important;
+}
+
+.dp__input_invalid {
+    box-shadow: none !important;
+    border-color: #ef4444 !important;
+}

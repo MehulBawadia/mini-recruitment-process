@@ -17,4 +17,14 @@ class Agency extends Model
     protected $fillable = [
         'name', 'email', 'mobile', 'contact_person',
     ];
+
+    /**
+     * An agency has many candidates.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function agency()
+    {
+        return $this->hasMany(Candidate::class);
+    }
 }

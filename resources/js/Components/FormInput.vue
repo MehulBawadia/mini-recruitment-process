@@ -34,7 +34,7 @@ export default {
             :id="labelFor"
             :value="modelValue"
             @input="updateValue"
-            class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-400 focus:ring-opacity-50 rounded-md shadow-sm"
+            class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-400 focus:ring-opacity-50 focus:outline-none rounded-md shadow-sm"
             :class="{'border-red-500' : error}"
         />
 

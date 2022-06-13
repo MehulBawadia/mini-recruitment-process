@@ -22,6 +22,16 @@ const isAgenciesLinkActive = () => {
     return false;
 };
 
+const isCandidatesLinkActive = () => {
+    let componentName = Inertia.page.component;
+
+    if (componentName === 'Candidates/List' || componentName === 'Candidates/Create' || componentName === 'Candidates/Show' || componentName === 'Candidates/Edit') {
+        return true;
+    }
+
+    return false;
+};
+
 </script>
 
 <template>
@@ -33,9 +43,13 @@ const isAgenciesLinkActive = () => {
                 Dashboard
             </Link>
 
-            <div v-if="$page.props.auth.userIsHR">
+            <div class="flex flex-col space-y-6" v-if="$page.props.auth.userIsHR">
                 <Link :href="route('agencies.index')" class="text-gray-300 hover:text-white transition ease-in-out duration-150" :class="{'text-white' : isAgenciesLinkActive() }">
                     Agencies
+                </Link>
+
+                <Link :href="route('candidates.index')" class="text-gray-300 hover:text-white transition ease-in-out duration-150" :class="{'text-white' : isCandidatesLinkActive() }">
+                    Candidates
                 </Link>
             </div>
         </div>
