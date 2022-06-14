@@ -180,7 +180,7 @@ export default {
                         <td class="border-t py-4 px-6" v-for="column in columns">
                             <div v-if="column.type === 'boolean' && row[column.field] === 0">No</div>
                             <div v-if="column.type === 'boolean' && row[column.field] === 1">Yes</div>
-                            <div v-if="column.type === 'string'">{{ row[column.field] }}</div>
+                            <div v-if="column.type === 'string' || column.type === undefined || column.type === null">{{ row[column.field] }}</div>
                             <div v-if="column.type === 'date'">{{ moment(row[column.field]).format('Do MMM, YYYY') }}</div>
 
                             <div v-if="column.type === 'toggle'" class="flex">
