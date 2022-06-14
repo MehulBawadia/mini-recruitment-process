@@ -49,6 +49,11 @@ class CandidatesController extends Controller
                 ->orWhere('mobile', 'LIKE', "%". $searchTerm ."%");
         }
 
+        $interviewDate = request('date') ?? null;
+        if ($interviewDate != null || $interviewDate != "") {
+            $candidates->whereDate('interview_scheduled_at', $interviewDate);
+        }
+
         $field = request('field') ?? 'id';
         $direction = request('direction') ?? 'desc';
         $candidates = $candidates->orderBy($field, $direction)->paginate(10);

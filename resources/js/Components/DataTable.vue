@@ -5,11 +5,13 @@ import { Link } from '@inertiajs/inertia-vue3';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import moment from 'moment';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
     components: {
         BreezeInput, Pagination,
-        Link,
+        Link, Datepicker,
     },
 
     props: {
@@ -17,6 +19,14 @@ export default {
         columns: Array,
         baseLink: String,
         filters: Object,
+        filterByDate: {
+            type: Boolean,
+            default: false,
+        },
+        filterByDatePlaceholder: {
+            type: String,
+            default: 'Date'
+        },
         showSearch: {
             type: Boolean,
             default: true,
@@ -34,6 +44,7 @@ export default {
                 search: this.filters.search ?? null,
                 field: this.filters.field ?? null,
                 direction: this.filters.direction ?? null,
+                date: this.filters.date ?? null,
             }
         }
     },
@@ -120,7 +131,18 @@ export default {
                         }, 2000);
                     }
                 });
-        }
+        },
+
+        handleDate(modelData) {
+            this.params.date = null;
+            if (modelData) {
+                this.params.date = moment(modelData).format('YYYY-MM-DD');
+            }
+        },
+
+        getFormattedDate(date) {
+            return moment(date).format('Do MMM, YYYY');
+        },
     },
 
     watch: {
@@ -140,8 +162,21 @@ export default {
 
 <template>
     <div>
-        <div class="flex items-center mt-6">
+        <div class="flex flex-col sm:flex-row sm:items-center mt-6 mb-3">
             <BreezeInput class="w-full md:w-1/2 lg:w-1/4 my-4 inline-block px-2 py-2 rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
+
+            <div class="sm:ml-4" v-if="this.filterByDate === true">
+                <Datepicker
+                    v-model="params.date"
+                    :placeholder="this.filterByDatePlaceholder"
+                    :disabledWeekDays="[0]"
+                    :enableTimePicker="false"
+                    :hideOffsetDates="true"
+                    :yearRange="[new Date().getFullYear() - 1, new Date().getFullYear() + 1]"
+                    @update:modelValue="handleDate"
+                />
+            </div>
+
             <Link :href="route(this.baseLink + '.index')" class="ml-4 text-gray-600 hover:text-red-500 focus:text-red-500 focus:outline-none" v-if="params.search != null">Reset</Link>
         </div>
 
@@ -177,11 +212,11 @@ export default {
                     </tr>
 
                     <tr v-else v-for="(row, rowKey) in collection.data" :key="row.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
-                        <td class="border-t py-4 px-6" v-for="column in columns">
+                        <td class="border-t py-4 px-6" v-for="column in columns" :key="column.field">
                             <div v-if="column.type === 'boolean' && row[column.field] === 0">No</div>
                             <div v-if="column.type === 'boolean' && row[column.field] === 1">Yes</div>
                             <div v-if="column.type === 'string' || column.type === undefined || column.type === null">{{ row[column.field] }}</div>
-                            <div v-if="column.type === 'date'">{{ moment(row[column.field]).format('Do MMM, YYYY') }}</div>
+                            <div v-if="column.type === 'date'">{{ this.getFormattedDate(row[column.field]) }}</div>
 
                             <div v-if="column.type === 'toggle'" class="flex">
                                 <div class="text-red-600 font-semibold" v-if="row[column.field] === 0">No</div>

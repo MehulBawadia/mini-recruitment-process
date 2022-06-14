@@ -50,6 +50,8 @@ export default {
             :columns="this.getColumns()"
             :filters="this.filters"
             baseLink="candidates"
+            filterByDatePlaceholder="Interview Date"
+            filterByDate
         />
     </BreezeAuthenticatedLayout>
 </template>
