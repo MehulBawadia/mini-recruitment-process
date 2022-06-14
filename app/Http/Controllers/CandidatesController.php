@@ -44,8 +44,8 @@ class CandidatesController extends Controller
         $searchTerm = request('search') ?? null;
         if ($searchTerm != null || $searchTerm != "") {
             $candidates->where('name', 'LIKE', "%".$searchTerm."%")
-                ->orWhere('contact_person', 'LIKE', "%". $searchTerm ."%")
                 ->orWhere('email', 'LIKE', "%". $searchTerm ."%")
+                ->orWhere('interview_by', 'LIKE', "%". $searchTerm ."%")
                 ->orWhere('mobile', 'LIKE', "%". $searchTerm ."%");
         }
 
