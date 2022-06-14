@@ -91,7 +91,7 @@ class CandidatesController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Candidate created sucessfully.',
+            'message' => 'Candidate created sucessfully. Redirecting...',
         ], 201);
     }
 
@@ -169,7 +169,7 @@ class CandidatesController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Candidate updated successfully.',
+            'message' => 'Candidate updated successfully. Redirecting...',
         ], 201);
     }
 

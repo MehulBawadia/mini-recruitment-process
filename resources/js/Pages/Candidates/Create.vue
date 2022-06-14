@@ -72,9 +72,14 @@ export default {
                             icon: 'success',
                             title: 'Success !',
                             text: res.data.message,
+                            timer: 2000,
                         });
 
                         this.errors = null;
+
+                        setTimeout(() => {
+                            window.location = route('candidates.index');
+                        }, 2150);
                     }
                 }).catch(error => {
                     this.processing = false;
@@ -209,7 +214,7 @@ export default {
                                     v-model="this.form.interview_scheduled_at"
                                     :minDate="new Date()"
                                     :disabledWeekDays="[0]"
-                                    :state="this.errors && this.errors.interview_scheduled_at.length >= 1 ? false : null"
+                                    :state="this.errors && this.errors.interview_scheduled_at?.length >= 1 ? false : null"
                                     :is24="false"
                                     utc
                                     required

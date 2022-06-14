@@ -23,11 +23,16 @@ class CandidateRequest extends FormRequest
      */
     public function rules()
     {
+        $cvRequired = 'required';
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $cvRequired = 'nullable';
+        }
+
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email:filter',
             'mobile' => 'required|numeric|digits_between:8,12',
-            'cv_resume' => 'nullable|file|mimes:PDF,pdf|max:2048',
+            'cv_resume_file' => $cvRequired.'|file|mimes:PDF,pdf|max:2048',
             'comments' => 'required|string|max:255',
             'interview_by' => 'required|string|max:255',
             'interview_feedback' => 'required|string|max:255',

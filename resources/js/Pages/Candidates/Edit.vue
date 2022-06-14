@@ -18,7 +18,6 @@ export default {
     props: {
         candidate: Object,
         agencies: Object,
-        interviewTime: String,
     },
 
     data() {
@@ -73,7 +72,12 @@ export default {
                             icon: 'success',
                             title: 'Success !',
                             text: res.data.message,
+                            timer: 2000,
                         });
+
+                        setTimeout(() => {
+                            window.location = route('candidates.show', this.candidate.id);
+                        }, 2150);
                     }
 
                     this.errors = null;
