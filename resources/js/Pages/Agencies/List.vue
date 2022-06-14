@@ -19,11 +19,11 @@ export default {
     methods: {
         getColumns() {
             return [
-                {label: 'Id', field: 'id', sortable: true},
-                {label: 'Name', field: 'name', sortable: true},
-                {label: 'Contact Person', field: 'contact_person', sortable: true},
-                {label: 'E-Mail', field: 'email', sortable: false,},
-                {label: 'Mobile', field: 'mobile', sortable: false},
+                {label: 'Id', field: 'id', sortable: true, type: 'string',},
+                {label: 'Name', field: 'name', sortable: true, type: 'string',},
+                {label: 'Contact Person', field: 'contact_person', sortable: true, type: 'string',},
+                {label: 'E-Mail', field: 'email', sortable: false, type: 'string',},
+                {label: 'Mobile', field: 'mobile', sortable: false, type: 'string',},
             ];
         },
     }
