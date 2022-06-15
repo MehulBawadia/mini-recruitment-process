@@ -165,7 +165,7 @@ export default {
         <div class="flex flex-col sm:flex-row sm:items-center mt-6 mb-3">
             <BreezeInput class="w-full md:w-1/2 lg:w-1/4 my-4 inline-block px-2 py-2 rounded-md shadow-sm focus:outline-none" placeholder="Search" v-model="params.search" />
 
-            <div class="sm:ml-4" v-if="this.filterByDate === true">
+            <div class="sm:ml-4" v-if="this.filterByDate">
                 <Datepicker
                     v-model="params.date"
                     :placeholder="this.filterByDatePlaceholder"
@@ -177,7 +177,7 @@ export default {
                 />
             </div>
 
-            <Link :href="route(this.baseLink + '.index')" class="ml-4 text-gray-600 hover:text-red-500 focus:text-red-500 focus:outline-none" v-if="params.search != null">Reset</Link>
+            <Link :href="route(this.baseLink + '.index')" class="ml-4 text-gray-600 hover:text-red-500 focus:text-red-500 focus:outline-none" v-if="params.search != null || params.date != null">Reset</Link>
         </div>
 
         <div class="bg-white rounded-tr-md rounded-tl-md shadow overflow-x-auto">

@@ -60,7 +60,7 @@ class CandidatesController extends Controller
 
         return Inertia::render('Candidates/List', [
             'candidates' => $candidates->withQueryString(),
-            'filters' => request()->only(['search', 'field', 'direction']),
+            'filters' => request()->only(['search', 'field', 'direction', 'date']),
         ]);
     }
 
