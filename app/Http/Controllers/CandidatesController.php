@@ -39,24 +39,24 @@ class CandidatesController extends Controller
             'direction' => 'nullable|sometimes|in:asc,desc',
         ]);
 
-        $candidates = $this->candidate->query();
-
         $searchTerm = request('search') ?? null;
-        if ($searchTerm != null || $searchTerm != "") {
-            $candidates->where('name', 'LIKE', "%".$searchTerm."%")
-                ->orWhere('email', 'LIKE', "%". $searchTerm ."%")
-                ->orWhere('interview_by', 'LIKE', "%". $searchTerm ."%")
-                ->orWhere('mobile', 'LIKE', "%". $searchTerm ."%");
-        }
-
         $interviewDate = request('date') ?? null;
-        if ($interviewDate != null || $interviewDate != "") {
-            $candidates->whereDate('interview_scheduled_at', $interviewDate);
-        }
-
         $field = request('field') ?? 'id';
         $direction = request('direction') ?? 'desc';
-        $candidates = $candidates->orderBy($field, $direction)->paginate(10);
+
+        $candidateQuery = $this->candidate->query();
+        $candidateQuery->when($searchTerm, function ($query, $searchTerm) {
+            return $query->where(function ($q) use ($searchTerm) {
+                return $q->where('name', 'LIKE', "%". $searchTerm ."%")
+                    ->orWhere('email', 'LIKE', "%". $searchTerm ."%")
+                    ->orWhere('interview_by', 'LIKE', "%". $searchTerm ."%")
+                    ->orWhere('mobile', 'LIKE', "%". $searchTerm ."%");
+            });
+        });
+        $candidateQuery->when($interviewDate, function ($query, $interviewDate) {
+            return $query->whereDate('interview_scheduled_at', $interviewDate);
+        });
+        $candidates = $candidateQuery->orderBy($field, $direction)->paginate(10);
 
         return Inertia::render('Candidates/List', [
             'candidates' => $candidates->withQueryString(),
